@@ -10,6 +10,20 @@ export class App extends Component {
     filter: '',
   };
 
+  componentDidMount() {
+    const currentContacts = localStorage.getItem('contacts');
+    const contacts = JSON.parse(currentContacts);
+    if (contacts) {
+      this.setState({ contacts });
+    }
+  }
+
+  componentDidUpdate(_, prevState) {
+    if (this.state.contacts !== prevState.contacts) {
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+    }
+  }
+
   handleFindNameInput = e => {
     this.setState({
       filter: e.currentTarget.value,
